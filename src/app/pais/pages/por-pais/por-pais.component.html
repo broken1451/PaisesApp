@@ -1,15 +1,17 @@
-<h2>Por Pais</h2>
-<hr />
-
-<div class="row">
-  <div class="col">
-    <app-search-input [porPlaceHolder]='porPais'
-      (emitTermino)="catchTermino($event)"
-      (debouce)="sugerencias($event)"
-    ></app-search-input>
+<div class="animate__animated animate__fadeIn">
+  <h2>Por Pais</h2>
+  <hr />
+  <div class="row">
+    <div class="col">
+      <app-search-input [porPlaceHolder]='porPais'
+        (emitTermino)="catchTermino($event)"
+        (debouce)="sugerencias($event)"
+      ></app-search-input>
+    </div>
   </div>
+  <hr />
 </div>
-<hr />
+
 <div *ngIf="error" class="alert alert-danger">
   No se encontro nada con el {{ termino }}
 </div>
