@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { PaisResponse } from '../../interfaces/pais.interface';
 import { PaisService } from '../../services/pais.service';
 
@@ -12,8 +13,10 @@ export class PorPaisComponent implements OnInit {
   public porPais: string;
   public error: boolean;
   public paises: PaisResponse[] = [];
+  public paisesSugeridos: PaisResponse[] = [];
+  public mostrarSugerencia: boolean = false;
 
-  constructor(private paisService: PaisService) {
+  constructor(private paisService: PaisService, private router: Router) {
     this.termino = '';
     this.error = false;
     this.porPais = 'Buscar pais...';
@@ -24,6 +27,7 @@ export class PorPaisComponent implements OnInit {
   catchTermino(event: string): void {
     this.termino = event;
     this.error = false;
+    this.mostrarSugerencia = false;
     this.paisService.buscarPais(this.termino).subscribe(
       (paises) => {
         this.paises = paises;
@@ -38,6 +42,21 @@ export class PorPaisComponent implements OnInit {
 
   sugerencias(event: string): void {
     this.error = false;
-    // this.termino = event;
+    this.termino = event;
+    this.mostrarSugerencia = true;
+    this.paisService.buscarPais(event).subscribe((paises) => {
+      this.paisesSugeridos = paises.splice(0, 5);
+    }, (err) => {
+      this.error = true;
+      this.paisesSugeridos = [];
+    });
+  }
+
+  buscarSugerido(termino: string): void{
+    this.catchTermino(termino);
+  }
+
+  navigate(path: string, code: string): void{
+    this.router.navigate([path, code]);
   }
 }

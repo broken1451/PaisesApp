@@ -12,6 +12,7 @@ import { PaisResponse } from '../interfaces/pais.interface';
 export class PaisService {
 
   get httpParams(): HttpParams {
+    // ?fields=name;capital;alpha2code;flag;population
     const params = new HttpParams().set('fields', 'name;capital;alpha2Code;flag;population');
     return  params;
   }
